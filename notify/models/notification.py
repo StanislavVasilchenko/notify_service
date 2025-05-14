@@ -1,4 +1,3 @@
-
 from datetime import timedelta
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db import models
@@ -34,7 +33,7 @@ class Notification(models.Model):
         verbose_name = 'Notification'
         verbose_name_plural = 'Notifications'
 
-    def clean(self):
+    def save(self, *args, **kwargs):
         now = timezone.now()
         if self.delay == Delay.ONE_HOUR:
             self.scheduled_time = now + timedelta(hours=1)
@@ -42,4 +41,4 @@ class Notification(models.Model):
             self.scheduled_time = now + timedelta(days=1)
         else:
             self.scheduled_time = now
-        super().clean()
+        super().save(*args, **kwargs)
