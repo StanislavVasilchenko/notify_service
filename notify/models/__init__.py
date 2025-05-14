@@ -1,5 +1,7 @@
 __all__ = [
-    "Notification"
+    "Notification",
+    "Recipient"
 ]
 
 from notify.models.notification import Notification
+from notify.models.recipient import Recipient
