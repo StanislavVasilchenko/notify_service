@@ -28,7 +28,7 @@ class Recipient(models.Model):
         if isinstance(self.address, list):
             for address in self.address:
                 if address.isdigit():
-                    self.is_telegram = True
+                    self.is_telegram = address.isdigit()
         elif isinstance(self.address, str):
             self.is_telegram = self.address.isdigit()
         super().save(*args, **kwargs)
