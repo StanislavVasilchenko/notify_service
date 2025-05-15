@@ -1,7 +1,8 @@
+import requests
 from celery import shared_task
 from notify.models import Notification, Recipient
 from django.core.mail import send_mail
-
+from notify_service.constant import BASE_URL_TELEGRAM
 from notify_service import settings
 
 
@@ -19,3 +20,7 @@ def sent_notify(
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[recipient.address]
             )
+        else:
+            params = {"chat_id": recipient.address, "text": notification.message}
+            requests.post(url=f"{BASE_URL_TELEGRAM}{settings.TG_BOT_TOKEN}/sendMessage", params=params)
+
