@@ -1,10 +1,18 @@
-from notify.models import Notification
+from typing import List
+from notify.models import Notification, DeliveryLog, Recipient
 from notify.tasks import send_notify
 
 
 def sent_notify_for_email_or_tg(
     notification: Notification,
+    recipients=List[Recipient],
 ):
+    for recipient in recipients:
+        DeliveryLog.objects.create(
+            notification=notification,
+            recipient=recipient,
+            status=DeliveryLog.StatusChoices.PENDING
+        )
     match notification.delay:
         case 0:
             send_notify.delay(notification.id)
