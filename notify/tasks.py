@@ -7,7 +7,7 @@ from notify_service import settings
 
 
 @shared_task
-def sent_notify(
+def send_notify(
     notification_id: int,
 ):
     notification = Notification.objects.get(id=notification_id)
