@@ -43,6 +43,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
         sent_notify_for_email_or_tg(
             notification=notification,
+            recipients=recipients,
         )
 
         return notification
