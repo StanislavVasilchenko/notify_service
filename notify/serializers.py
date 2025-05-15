@@ -1,6 +1,6 @@
 from rest_framework import serializers
-
 from notify.models import Notification, Recipient
+from notify.utils import sent_notify_for_email_or_tg
 
 
 class RecipientField(serializers.Field):
@@ -33,9 +33,16 @@ class NotificationSerializer(serializers.ModelSerializer):
             delay=validated_data.get("delay"),
         )
 
-        [Recipient.objects.create(
-            address=address,
+        recipients = [Recipient(
+            address=adr,
             notification=notification,
-        ) for address in validated_data.get("recipient")]
+            is_telegram=True if adr.isdigit() else False, )
+            for adr in validated_data.get("recipient")]
+
+        Recipient.objects.bulk_create(recipients)
+
+        sent_notify_for_email_or_tg(
+            notification=notification,
+        )
 
         return notification
