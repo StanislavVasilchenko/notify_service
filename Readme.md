@@ -32,6 +32,11 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
+6. Адрес документации
+```
+http://localhost:8000/api/schema/swagger-ui/
+```
+
 ## Запуск приложения и БД в контейнере
 
 
@@ -59,4 +64,8 @@ docker compose build
 docker-compose  up -d 
 Новая версия докера >= 27.4.0
 docker compose up -d
+```
+Адрес документации
+```
+http://localhost:8000/api/schema/swagger-ui/
 ```
