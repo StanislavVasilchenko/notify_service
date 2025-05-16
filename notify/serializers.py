@@ -1,9 +1,4 @@
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import (
-    OpenApiExample,
-    extend_schema_field,
-    extend_schema_serializer,
-)
+from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
 from rest_framework import serializers
 
 from notify.models import Notification, Recipient

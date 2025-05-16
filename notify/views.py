@@ -1,4 +1,4 @@
-from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from notify.models import Notification
