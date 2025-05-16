@@ -15,7 +15,8 @@ class Recipient(models.Model):
         Notification,
         on_delete=models.CASCADE,
         related_name="recipient",
-        verbose_name="notification")
+        verbose_name="notification",
+    )
 
     def __str__(self):
         return f"{self.address} ({'telegram' if self.is_telegram else 'email'})"

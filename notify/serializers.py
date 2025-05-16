@@ -1,9 +1,13 @@
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema_field, extend_schema_serializer, OpenApiExample
+from drf_spectacular.utils import (
+    OpenApiExample,
+    extend_schema_field,
+    extend_schema_serializer,
+)
 from rest_framework import serializers
+
 from notify.models import Notification, Recipient
 from notify.utils import sent_notify_for_email_or_tg
-
 
 
 class RecipientField(serializers.Field):
@@ -17,32 +21,35 @@ class RecipientField(serializers.Field):
                 return data
             raise serializers.ValidationError("Все элементы должны быть строками.")
         else:
-            raise serializers.ValidationError("recipient должен быть строкой или списком строк.")
+            raise serializers.ValidationError(
+                "recipient должен быть строкой или списком строк.",
+            )
 
     def to_representation(self, value):
         return [recipient.address for recipient in value.all()]
 
+
 @extend_schema_serializer(
     examples=[
         OpenApiExample(
-            'One recipient',
+            "One recipient",
             value={
-                'message': 'Message text',
-                'recipient': 'email@example.com',
-                'delay': 0
+                "message": "Message text",
+                "recipient": "email@example.com",
+                "delay": 0,
             },
-            request_only=True
+            request_only=True,
         ),
         OpenApiExample(
-            'Many recipients',
+            "Many recipients",
             value={
-                'message': 'Message text',
-                'recipient': ['email1@example.com', 'email2@example.com', '123456789'],
-                'delay': 0
+                "message": "Message text",
+                "recipient": ["email1@example.com", "email2@example.com", "123456789"],
+                "delay": 0,
             },
-            request_only=True
-        )
-    ]
+            request_only=True,
+        ),
+    ],
 )
 class NotificationSerializer(serializers.ModelSerializer):
     recipient = RecipientField(write_only=True)
@@ -57,11 +64,14 @@ class NotificationSerializer(serializers.ModelSerializer):
             delay=validated_data.get("delay"),
         )
 
-        recipients = [Recipient(
-            address=adr,
-            notification=notification,
-            is_telegram=True if adr.isdigit() else False, )
-            for adr in validated_data.get("recipient")]
+        recipients = [
+            Recipient(
+                address=adr,
+                notification=notification,
+                is_telegram=True if adr.isdigit() else False,
+            )
+            for adr in validated_data.get("recipient")
+        ]
 
         Recipient.objects.bulk_create(recipients)
 

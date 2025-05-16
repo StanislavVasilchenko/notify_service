@@ -1,5 +1,6 @@
+from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
 from rest_framework import generics
-from drf_spectacular.utils import extend_schema, OpenApiExample, OpenApiParameter
+
 from notify.models import Notification
 from notify.serializers import NotificationSerializer
 
@@ -13,7 +14,7 @@ from notify.serializers import NotificationSerializer
     - message: string up to 1024 characters
     - recipient: string (up to 150 characters) OR list of strings (each up to 150 characters)
     - delay: integer
-    """
+    """,
 )
 class NotificationCreate(generics.CreateAPIView):
     queryset = Notification.objects.all()
