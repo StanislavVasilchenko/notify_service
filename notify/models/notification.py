@@ -5,9 +5,9 @@ from django.utils import timezone
 
 
 class Delay(models.IntegerChoices):
-    IMMEDIATELY = (0, "Отправить сейчас")
-    ONE_HOUR = (1, "Отправить через час")
-    ONE_DAY = (2, "Отправить через день")
+    IMMEDIATELY = (0, "Send now")
+    ONE_HOUR = (1, "Send in an hour")
+    ONE_DAY = (2, "Send in a day")
 
 
 class Notification(models.Model):
