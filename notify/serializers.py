@@ -1,6 +1,9 @@
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field, extend_schema_serializer, OpenApiExample
 from rest_framework import serializers
 from notify.models import Notification, Recipient
 from notify.utils import sent_notify_for_email_or_tg
+
 
 
 class RecipientField(serializers.Field):
@@ -19,7 +22,28 @@ class RecipientField(serializers.Field):
     def to_representation(self, value):
         return [recipient.address for recipient in value.all()]
 
-
+@extend_schema_serializer(
+    examples=[
+        OpenApiExample(
+            'One recipient',
+            value={
+                'message': 'Message text',
+                'recipient': 'email@example.com',
+                'delay': 0
+            },
+            request_only=True
+        ),
+        OpenApiExample(
+            'Many recipients',
+            value={
+                'message': 'Message text',
+                'recipient': ['email1@example.com', 'email2@example.com', '123456789'],
+                'delay': 0
+            },
+            request_only=True
+        )
+    ]
+)
 class NotificationSerializer(serializers.ModelSerializer):
     recipient = RecipientField(write_only=True)
 
