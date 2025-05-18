@@ -6,7 +6,7 @@ from notify.tasks import send_notify
 
 def sent_notify_for_email_or_tg(
     notification: Notification,
-    recipients=List[Recipient],
+    recipients: List[Recipient],
 ):
     for recipient in recipients:
         DeliveryLog.objects.create(
